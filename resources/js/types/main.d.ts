@@ -9,6 +9,7 @@ export interface User {
 }
 
 export interface Conversation {
+    avatar: string | null;
     id: number;
     user_id1: number;
     user_id2: number;
@@ -17,6 +18,13 @@ export interface Conversation {
     last_message_id: number | null;
     blocked_at: string | null;
     last_message_date: string | null;
+    is_admin: boolean;
+    is_user: boolean;
+    is_group: boolean;
+    name: string | null;
+    owner_id: number | null;
+    user_ids: number[];
+    users: User[];
 }
 
 export interface Message {

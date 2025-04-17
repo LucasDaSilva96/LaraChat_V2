@@ -4,7 +4,6 @@ import { usePage } from '@inertiajs/react';
 
 export default function Home() {
     const { auth } = usePage<SharedData>().props;
-    console.log(auth)
 
     return (
         <ChatLayout>

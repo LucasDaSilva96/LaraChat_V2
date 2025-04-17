@@ -1,10 +1,11 @@
 import { ECHO } from '@/app';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
+import { Input } from '@/components/ui/input';
 import { SharedData } from '@/types';
 import { Conversation, User } from '@/types/main';
 import { Link, usePage } from '@inertiajs/react';
-import { AlignRight } from 'lucide-react';
+import { AlignRight, PencilLine } from 'lucide-react';
 import { PropsWithChildren, useEffect, useMemo, useState } from 'react';
 
 
@@ -34,7 +35,6 @@ export default function ChatLayout({ children }: PropsWithChildren) {
     };
 
 
-    console.log(conversations, selectedConversation);
 
     useEffect(() => {
 
@@ -49,7 +49,7 @@ export default function ChatLayout({ children }: PropsWithChildren) {
             }
             )
             .joining((user: User) => {
-                console.log('User joined:', user);
+                // console.log('User joined:', user);
                 setOnlineUsers((prevUsers) => ({
                     ...prevUsers,
                     [user.id]: user,
@@ -57,7 +57,7 @@ export default function ChatLayout({ children }: PropsWithChildren) {
             }
             )
             .leaving((user: User) => {
-                console.log('User left:', user);
+                // console.log('User left:', user);
                 setOnlineUsers((prevUsers) => {
                     const newUsers = { ...prevUsers };
                     delete newUsers[user.id];
@@ -76,7 +76,10 @@ export default function ChatLayout({ children }: PropsWithChildren) {
 
     }, []);
 
-    console.log('Online users:', onlineUsers);
+    // console.log('Online users:', onlineUsers);
+
+    console.log('Conversations:', conversations);
+    console.log('Selected conversation:', selectedConversation);
 
     useEffect(() => {
 
@@ -117,8 +120,8 @@ export default function ChatLayout({ children }: PropsWithChildren) {
     }, [localConversations]);
 
     return (
-        <main className='w-full h-screen flex flex-col px-1 md:px-2 lg:px-4'>
-            <header className='w-full p-2 flex items-center justify-between'>
+        <main className='w-full h-screen flex flex-col'>
+            <header className='w-full p-2 flex items-center justify-between px-1 md:px-2 lg:px-4'>
                 <aside className='flex items-center gap-2'>
                     <Avatar>
                         <AvatarImage src={auth.user.avatar} />
@@ -154,7 +157,27 @@ export default function ChatLayout({ children }: PropsWithChildren) {
                 </DropdownMenu>
 
             </header>
-            {children}
+            <section className='w-full h-full flex'>
+                <aside className='w-[240px] md:w-[340px] flex flex-col gap-2 max-h-[93dvh] overflow-y-auto p-2 bg-gray-400/10 bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10'>
+
+                    <div className='w-full flex items-center justify-between px-1'>
+                        <h1 className='text-center text-base md:text-xl'>
+                            My Conversations
+                        </h1>
+                        <button className='cursor-pointer hover:bg-gray-400/10 p-1 rounded-md'>
+                            <PencilLine size={20} />
+                        </button>
+                    </div>
+                    <Input type='text' placeholder='Filter users and groups' />
+
+                    <div className='w-full h-full pb-2 overflow-y-auto'>
+
+
+                    </div>
+
+                </aside>
+                {children}
+            </section>
         </main>
     )
 }
